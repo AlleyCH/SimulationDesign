@@ -17,6 +17,7 @@ public class PanelManager : MonoBehaviour {
 
 	public void OnEnable()
 	{
+		
 		m_OpenParameterId = Animator.StringToHash (k_OpenTransitionName);
 
 		if (initiallyOpen == null)
@@ -62,6 +63,7 @@ public class PanelManager : MonoBehaviour {
 
 	public void CloseCurrent()
 	{
+		
 		if (m_Open == null)
 			return;
 
@@ -69,6 +71,8 @@ public class PanelManager : MonoBehaviour {
 		SetSelected(m_PreviouslySelected);
 		StartCoroutine(DisablePanelDeleyed(m_Open));
 		m_Open = null;
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	}
 
 	IEnumerator DisablePanelDeleyed(Animator anim)
