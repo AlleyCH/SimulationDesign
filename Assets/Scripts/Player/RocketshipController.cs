@@ -11,12 +11,19 @@ public class RocketshipController : MonoBehaviour
     private Vector3 currentVelocity;
     public float velocitySmoothTime = 0.1f; // Smoothing time for velocity changes
 
+    [Header("Health")]
+    public int maxHealth = 100;
+    public int currentHealth;
+    public RocketshipHealth healthBar;
+
     private Rigidbody rb;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     public void Move(Vector3 direction)
@@ -33,6 +40,12 @@ public class RocketshipController : MonoBehaviour
         // Apply the smoothed velocity to the Rigidbody
         rb.velocity = currentVelocity;
 
+    }
+    public void MoveUpandDown(Vector3 direction)
+    {
+        Vector3 moveDirection = transform.forward * direction.z * moveSpeed;
+        moveDirection += transform.up * direction.y * moveSpeed;
+        rb.MovePosition(rb.position + moveDirection * Time.deltaTime);
     }
 
     public void Rotate(Vector3 rotation)

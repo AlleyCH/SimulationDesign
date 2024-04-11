@@ -92,6 +92,56 @@ public partial class @RocketInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""flying_2d"",
+            ""id"": ""1b6be978-9c58-4ae0-8c0d-3bdd03cce7ba"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Button"",
+                    ""id"": ""cfff3625-0609-4ba8-a037-7eab6eee217c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""Verticle"",
+                    ""id"": ""9e3560df-daa3-4c44-ae19-166bc8d172b3"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""81a27b30-7a50-4064-a3db-ab22faf6e0a3"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1ebee8c4-f88f-4366-9a7c-8a82feffa937"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -100,6 +150,9 @@ public partial class @RocketInput: IInputActionCollection2, IDisposable
         m_flying = asset.FindActionMap("flying", throwIfNotFound: true);
         m_flying_Movement = m_flying.FindAction("Movement", throwIfNotFound: true);
         m_flying_Rotation = m_flying.FindAction("Rotation", throwIfNotFound: true);
+        // flying_2d
+        m_flying_2d = asset.FindActionMap("flying_2d", throwIfNotFound: true);
+        m_flying_2d_Movement = m_flying_2d.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -211,9 +264,59 @@ public partial class @RocketInput: IInputActionCollection2, IDisposable
         }
     }
     public FlyingActions @flying => new FlyingActions(this);
+
+    // flying_2d
+    private readonly InputActionMap m_flying_2d;
+    private List<IFlying_2dActions> m_Flying_2dActionsCallbackInterfaces = new List<IFlying_2dActions>();
+    private readonly InputAction m_flying_2d_Movement;
+    public struct Flying_2dActions
+    {
+        private @RocketInput m_Wrapper;
+        public Flying_2dActions(@RocketInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_flying_2d_Movement;
+        public InputActionMap Get() { return m_Wrapper.m_flying_2d; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(Flying_2dActions set) { return set.Get(); }
+        public void AddCallbacks(IFlying_2dActions instance)
+        {
+            if (instance == null || m_Wrapper.m_Flying_2dActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Flying_2dActionsCallbackInterfaces.Add(instance);
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+        }
+
+        private void UnregisterCallbacks(IFlying_2dActions instance)
+        {
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+        }
+
+        public void RemoveCallbacks(IFlying_2dActions instance)
+        {
+            if (m_Wrapper.m_Flying_2dActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IFlying_2dActions instance)
+        {
+            foreach (var item in m_Wrapper.m_Flying_2dActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Flying_2dActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public Flying_2dActions @flying_2d => new Flying_2dActions(this);
     public interface IFlyingActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
+    }
+    public interface IFlying_2dActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
     }
 }

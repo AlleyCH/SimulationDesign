@@ -39,7 +39,13 @@ public class InputManager : MonoBehaviour
             Debug.Log("Are you moving bruv??? pressing s?? " + inputValue);
         }
     }
-
+    public void OnVerticalMovement(InputAction.CallbackContext context)
+    {
+        
+            moveInput.y = context.ReadValue<float>();
+            rocketShipController.MoveUpandDown(moveInput);
+        
+    }
     public void OnRotate(InputAction.CallbackContext context)
     {
         rotateInput = context.ReadValue<Vector2>();

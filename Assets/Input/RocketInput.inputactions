@@ -70,6 +70,56 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "flying_2d",
+            "id": "1b6be978-9c58-4ae0-8c0d-3bdd03cce7ba",
+            "actions": [
+                {
+                    "name": "Movement",
+                    "type": "Button",
+                    "id": "cfff3625-0609-4ba8-a037-7eab6eee217c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Verticle",
+                    "id": "9e3560df-daa3-4c44-ae19-166bc8d172b3",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "81a27b30-7a50-4064-a3db-ab22faf6e0a3",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "1ebee8c4-f88f-4366-9a7c-8a82feffa937",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
         }
     ],
     "controlSchemes": []
