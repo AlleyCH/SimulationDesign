@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class RocketshipHealth : MonoBehaviour
 {
@@ -36,7 +37,8 @@ public class RocketshipHealth : MonoBehaviour
 
     public void Respond()
     {
-        currentHealth = maxHealth;
+       // SceneManager.LoadScene("GameOver");
+        currentHealth = 100;
         transform.position = respawnPosition;
         Debug.Log("Player has responded!");
     }

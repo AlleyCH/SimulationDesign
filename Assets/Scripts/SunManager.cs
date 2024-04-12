@@ -8,7 +8,7 @@ public class SunManager : MonoBehaviour
     public int damage = 100;
     // Define the scale factor (1 Unity unit represents 1 million kilometers)
 
-     void OnTriggerEnter(Collider other)
+     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
